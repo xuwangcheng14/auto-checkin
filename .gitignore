@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 运行数据(数据库含任务凭证, 严禁提交)
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# 凭证抓取/调试临时文件(严禁提交)
+_tmp_*
+*.cookie
+cookies.txt
+
+# 个人部署与调试工具(含内网环境信息, 不随仓库分发)
+tools/*
+!tools/qoder_device.py
+
+# 内网运维手册(含私有环境信息, 不随仓库分发)
+docs/部署与运维.md
+
+# 环境变量与杂项
+.env
+*.log
+.DS_Store
+Thumbs.db
