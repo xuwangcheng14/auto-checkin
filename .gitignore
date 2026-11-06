@@ -18,11 +18,17 @@ cookies.txt
 # 个人部署与调试工具(含内网环境信息, 不随仓库分发)
 tools/*
 !tools/qoder_device.py
+!tools/trae_device.py
 
-# 内网运维手册(含私有环境信息, 不随仓库分发)
+# 内网运维手册与个人工具箱(含私有环境信息, 不随仓库分发)
 docs/部署与运维.md
+docs/小浣熊工具箱/
 
-# 环境变量与杂项
+# 旧发布包可能包含内部文档, 严禁提交
+auto-checkin.tar.gz
+
+# 本地 AI 会话文件与环境变量
+.zcode/
 .env
 *.log
 .DS_Store

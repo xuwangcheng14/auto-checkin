@@ -53,13 +53,18 @@ python app.py
 |---|---|
 | `workbuddy` | WorkBuddy（腾讯 CodeBuddy）每日积分签到，支持多账号、WxPusher 微信推送，详见 `docs/WorkBuddy自动签到配置说明.md` |
 | `modelscope` | ModelScope 每日登录奖励，填站点 Cookie 即可，支持查询魔方余额 |
+| `trae` | Trae CN（trae.cn，字节的 AI IDE）每日积分签到，填网页 Cookie + 本机真实设备号，自动换取 JWT、上报积分余额与 Cookie 到期时间 |
 | `qoder` | Qoder 每日积分签到，支持 PAT / 会话令牌、国内版与国际版 |
+| `xiaohuanxiong` | 商汤小浣熊每日积分（登录即发放），填访问令牌即可，支持多账号 |
 | `example_demo` | 本地模拟签到（不联网），用于测试平台与演示接入方式，可删除 |
 
 各渠道的凭证获取方法见对应 `channels/<渠道id>/README.md`（界面「配置指南」页亦可查看）。
 
 > Qoder 渠道在服务器上运行需要设备标识文件：在装有 Qoder 客户端的 Windows 机器上执行
 > `python tools/qoder_device.py` 生成 `data/qoder_device.json` 后上传，详见渠道 README。
+>
+> Trae 渠道同理需要设备号（领取积分时服务端校验）：在装过 Trae 客户端的机器上执行
+> `python tools/trae_device.py` 生成 `data/trae_device.json` 后上传；同一设备号每天只能签到 1 个账号。
 
 ## 新增签到渠道
 
@@ -153,12 +158,13 @@ web/                      前端(原生 JS SPA, 无构建依赖)
 channels/
   _template/              新渠道模板(平台忽略 _ 开头目录)
   example_demo/           本地模拟示例
-  workbuddy/ modelscope/ qoder/   内置渠道
+  workbuddy/ modelscope/ qoder/ trae/ xiaohuanxiong/   内置渠道
 docs/
   渠道开发指南.md          渠道接入权威规范(面向开发者/AI Agent)
   WorkBuddy自动签到配置说明.md     WorkBuddy 渠道详细教程与青龙独立脚本说明
 tools/
   qoder_device.py         Qoder 设备标识文件生成工具
+  trae_device.py          Trae 客户端设备号提取工具
 data/                     运行数据(自动创建, 勿提交): checkin.db、日志
 ```
 
@@ -169,7 +175,7 @@ data/                     运行数据(自动创建, 勿提交): checkin.db、�
 - **怎么改端口？** `python app.py --port 8080`，或环境变量 `PORT`。
 - **新增渠道后界面没出现？** 检查目录名是否以 `_` 开头、入口是否叫 `channel.py`、META 是否合法；
   「渠道管理」页会显示具体加载错误。
-- **迁移任务到新机器？** 复制 `data/checkin.db` 即可（Qoder 渠道另需 `data/qoder_device.json`）。
+- **迁移任务到新机器？** 复制 `data/checkin.db` 即可（Qoder 渠道另需 `data/qoder_device.json`，Trae 渠道另需 `data/trae_device.json`；设备标识文件请限制读取权限）。
 
 ## 许可证
 

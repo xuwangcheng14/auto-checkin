@@ -26,6 +26,7 @@ python app.py --host 0.0.0.0 --port 7777
 
 # 单元测试(离线, 不发网络请求)
 python -X utf8 tests/test_expires_info.py
+python -X utf8 tests/test_trae_channel.py
 
 # 手动执行某个渠道脚本(不走平台, 用于调试)
 echo '{"cookie": "测试值"}' | python channels/<渠道id>/channel.py
@@ -48,6 +49,7 @@ channels/         渠道脚本目录: 每个子目录一个渠道, 入口必须�
   _template/      新渠道模板(目录名 _ 开头会被平台忽略)
 docs/渠道开发指南.md  渠道接入权威规范(开发新渠道前必读)
 tools/qoder_device.py Qoder 设备标识生成工具(需装有 Qoder 客户端的 Windows)
+tools/trae_device.py  Trae 设备号提取工具(需装过 Trae 客户端的机器, 生成 data/trae_device.json)
 data/             运行数据(自动创建, 已 gitignore): checkin.db、app.log 等
 ```
 
@@ -93,7 +95,8 @@ curl -s http://127.0.0.1:7777/api/stats
 要点：
 
 - 升级只覆盖代码目录，**绝不覆盖 `data/`**（数据库里有任务凭证）；
-- 跨机器迁移 = 拷贝 `data/checkin.db`（Qoder 渠道另需 `data/qoder_device.json`，chmod 600）；
+- 跨机器迁移 = 拷贝 `data/checkin.db`（Qoder 渠道另需 `data/qoder_device.json`，Trae 渠道另需
+  `data/trae_device.json`，均 chmod 600）；
 - 拷库迁移后 `next_run_at` 若已在过去，调度器会立即补跑一次（签到接口幂等，安全）；
 - Web 界面**无鉴权**，只有监听 127.0.0.1 时才可视为安全；对外暴露必须加反代鉴权。
 
@@ -106,6 +109,6 @@ curl -s http://127.0.0.1:7777/api/stats
 
 ## 仓库发布说明
 
-- 本仓库对外公开发布；`tools/` 中仅保留 `qoder_device.py`，其余为个人部署/调试工具不随仓库分发；
+- 本仓库对外公开发布；`tools/` 中仅保留 `qoder_device.py`、`trae_device.py`（渠道设备标识工具），其余为个人部署/调试工具不随仓库分发；
 - `docs/部署与运维.md` 为内网运维手册，不入库；
 - 新增文件前先想一下是否包含私有环境信息（内网 IP、账号、路径），有则加入 `.gitignore`。
